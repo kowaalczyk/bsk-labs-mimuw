@@ -1,0 +1,45 @@
+#  ----- always require user login and password (copied from login) -----
+
+# lines below are copied from login file, with exception of the following line:
+# auth [success=ok new_authtok_reqd=ok ignore=ignore user_unknown=bad default=die] pam_securetty.so
+# which prevented root login through password
+
+auth       optional   pam_faildelay.so  delay=3000000
+auth       requisite  pam_nologin.so
+session [success=ok ignore=ignore module_unknown=ignore default=bad] pam_selinux.so close
+session    required     pam_loginuid.so
+session [success=ok ignore=ignore module_unknown=ignore default=bad] pam_selinux.so open
+session       required   pam_env.so readenv=1
+session       required   pam_env.so readenv=1 envfile=/etc/default/locale
+@include common-auth
+auth       optional   pam_group.so
+session    required   pam_limits.so
+session    optional   pam_lastlog.so
+session    optional   pam_motd.so motd=/run/motd.dynamic
+session    optional   pam_motd.so noupdate
+session    optional   pam_mail.so standard
+session    optional   pam_keyinit.so force revoke
+@include common-account
+@include common-session
+@include common-password
+
+
+#  ----- custom authentication config -----
+
+# if user is not a root, let him in
+# otherwise, we need a 2nd password
+auth [success=ignore default=3] pam_rootok.so debug
+
+# test time call below returns 0 after 11:00 AM,
+# we use this to change the password against which the root user is authenticated
+auth [success=1 default=ignore] pam_exec.so quiet /etc/palindrome.d/testtime.sh
+auth [success=1 default=die] pam_userdb.so db=/etc/palindrome.d/before11
+auth requisite pam_userdb.so db=/etc/palindrome.d/after11
+
+auth required pam_permit.so
+
+
+#  ----- custom account rules -----
+
+# take time restrictions from /etc/security/time.conf into account
+account required pam_time.so
