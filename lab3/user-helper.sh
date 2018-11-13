@@ -15,8 +15,8 @@ echo "$USERNAME1    hard    nproc   20" >>/etc/security/limits.conf
 echo "$USERNAME1:$USERPASS1" | chpasswd
 
 useradd luser2
-echo "palindrome;!tty2&!tty3&!tty4;$USERNAME2;!Al0000-2400" >> /etc/security/time.conf
+echo "palindrome;!tty2&tty3&tty4;$USERNAME2;!Al0000-2400" >> /etc/security/time.conf
 echo "$USERNAME2:$USERPASS2" | chpasswd
 
 echo "Add following line to /etc/sudoers using visudo:"
-echo "$USERNAME2    ALL=(ALL)   tcpdump"
+echo "$USERNAME2    ALL=(ALL:ALL) /usr/sbin/tcpdump"
