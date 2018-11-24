@@ -1,0 +1,4 @@
+Host students
+    HostName students.mimuw.edu.pl
+    IdentitiesOnly yes
+    User kk385830

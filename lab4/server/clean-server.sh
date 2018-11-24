@@ -1,0 +1,5 @@
+echo "Files to clean manually:"
+echo "/etc/ssh/sshd_config"
+echo "/root/.ssh/authorized_keys"
+echo "/etc/hosts.deny"
+echo "Done"

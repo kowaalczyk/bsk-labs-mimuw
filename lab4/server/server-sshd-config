@@ -1,0 +1,13 @@
+# 2a:  u1 can log in only using a key
+Match User u1
+    PasswordAuthentication no
+
+# 2b: Deny access for u2
+DenyUsers u2
+
+
+# 2e: Only accept protocol version 2
+# My machine runs OpenSSH 7.6 which deleted support for version 1, details:
+# https://www.openssh.com/txt/release-7.6
+# On older servers, I would reccommend updating the server to the latest version,
+# alternatively we could change Protocol 1,2 to Protocol 2 in sshd_config
