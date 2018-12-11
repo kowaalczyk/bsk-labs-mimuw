@@ -45,3 +45,9 @@ in order to perform user-related configuration tasks (tasks 3-6)
 Supplied deployment configuration is just an example and has to be configured for 
 your own domain in order to work correctly - all configuration is made through 
 variables defined at the top of both bash scripts.  
+
+## Lab 4
+**TODO**
+
+## Lab 5
+**TODO**
